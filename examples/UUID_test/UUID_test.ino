@@ -32,10 +32,18 @@ void setup()
   delay(100);
 
   start = micros();
-  uuid.generate();
+  uuid.generate(true);
   stop = micros();
 
-  Serial.print("   generate: ");
+  Serial.print("generate(T): ");
+  Serial.println(stop - start);
+  delay(100);
+
+  start = micros();
+  uuid.generate(false);
+  stop = micros();
+
+  Serial.print("generate(F): ");
   Serial.println(stop - start);
   delay(100);
 

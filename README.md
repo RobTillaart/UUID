@@ -96,8 +96,8 @@ Note that 0.1.1 has 2x better performance on AVR.
 | 0.1.0   | generate     |     412 us   |                 |
 | 0.1.0   | toCharArray  |       4 us   |                 |
 | 0.1.1   | seed         |       4 us   |                 |
-| 0.1.1   | generate(T)  |     196 us   |                 | 
-| 0.1.1   | generate(F)  |     240 us   |                 | 
+| 0.1.1   | generate(T)  |     244 us   |                 | 
+| 0.1.1   | generate(F)  |     248 us   |                 | 
 | 0.1.1   | toCharArray  |       4 us   |                 |
 
 
@@ -106,10 +106,10 @@ UUID's per second
 | Version |  UNO 16 MHz  |  ESP32 240 MHz  | notes  |
 |:-------:|:------------:|:---------------:|:------:|
 | 0.1.0   |    2000++    |                 |
-| 0.1.1   |    5000++    |                 | use generate(true);
+| 0.1.1   |    4000++    |                 | use generate(true);
 | 0.1.1   |    4000++    |                 | use generate(false);
 
-Note that this max is not realistic e.g. for a server where also
+Note that this maximum is not realistic e.g. for a server where also
 other tasks need to be done (listening, transfer etc).
 
 

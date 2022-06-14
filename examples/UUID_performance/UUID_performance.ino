@@ -22,10 +22,21 @@ void setup()
   uint32_t start = millis();
   while (millis() - start < 1000)
   {
-    uuid.generate();
+    uuid.generate(true);
     count++;
   }
-  Serial.print("Generated ");
+  Serial.print("Generate(true):  ");
+  Serial.print(count);
+  Serial.println(" uuid's per second.");
+
+  count = 0;
+  start = millis();
+  while (millis() - start < 1000)
+  {
+    uuid.generate(false);
+    count++;
+  }
+  Serial.print("Generate(false): ");
   Serial.print(count);
   Serial.println(" uuid's per second.");
 }
