@@ -74,7 +74,7 @@ unittest(test_layout)
   strcpy(u, uuid.toCharArray());
   assertEqual(36, strlen(u));
 
-  assertEqual(u[08], '-');
+  assertEqual(u[8], '-');
   assertEqual(u[12], '-');
   assertEqual(u[16], '-');
   assertEqual(u[20], '-');

@@ -22,9 +22,8 @@ In such this is for experimental use only.
 
 Tested on Arduino UNO only.
 
-// e.g. 20D24650-D900-E34F-DE49-8964AB3EB46D
-// version uuid?
-// layout  rfc4122
+A UUID generated looks like 20d24650-d900-e34f-de49-8964ab3eb46d
+
 
 
 ## Interface
@@ -90,7 +89,7 @@ Note: compile warning ...
   - external random input needed
   - GUID, UUID, versions (links)
   - background 
-  - RFC layout
+  - rfc4122 layout
 - test other platforms
 - investigate entropy harvesting
   - freeRAM, micros, timers, RAM, USB-ID, ...
