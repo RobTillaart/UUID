@@ -45,7 +45,7 @@ Tested on Arduino UNO only.
 ## Interface
 
 
-## UUID class
+### UUID class
 
 Use **\#include "UUID.h"**
 
@@ -94,8 +94,9 @@ Serial.println(uuid.toCharArray());
 ## Performance
 
 Not tested ESP32 (and many other platforms) yet.
+
 Performance measured with **UUID_test.ino** shows the following times,
-Note that 0.1.1 has 2x better performance on AVR.
+Note that 0.1.1 has substantial better performance on AVR.
 
 
 | Version |  Function    |  UNO 16 MHz  |  ESP32 240 MHz  |
@@ -138,8 +139,6 @@ See examples.
 
 ### Functions
 
-- add **setSeparator(char)** and **getSeparator()** ?
-  - one char
 - add **setUpperCase()** and **setLowerCase()**, **isUpperCase()**
   - one bool flag
 - binary output in a byte array ?
@@ -150,6 +149,7 @@ See examples.
 - ESP32 UUID server 
   - using timing of the calls as entropy !
 - RTC for entropy
+- EEPROM to store last seeds?
 
 ### Fixes / optimizations
 
@@ -160,5 +160,7 @@ See examples.
 ### Won't
 
 - support for { and }
+- add **setSeparator(char)** and **getSeparator()** ?  
+  - minus is the specification.
 
 

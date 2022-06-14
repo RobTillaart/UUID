@@ -77,8 +77,29 @@ unittest(test_layout)
 
   assertEqual('-', u[8]);
   assertEqual('-', u[13]);
+  assertEqual('4', u[15]);
   assertEqual('-', u[18]);
   assertEqual('-', u[23]);
+}
+
+
+unittest(test_mode)
+{
+  UUID uuid;
+
+  assertEqual(UUID_MODE_VARIANT4, uuid.getMode());
+  uuid.setRandomMode();
+  assertEqual(UUID_MODE_RANDOM, uuid.getMode());
+  uuid.setVariant4Mode();
+  assertEqual(UUID_MODE_VARIANT4, uuid.getMode());
+}
+
+
+unittest(test_printTo)
+{
+  UUID uuid;
+
+  assertEqual(38, Serial.print(uuid));  // 36 + \n\r
 }
 
 
