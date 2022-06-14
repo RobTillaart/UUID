@@ -99,7 +99,8 @@ unittest(test_printTo)
 {
   UUID uuid;
 
-  assertEqual(38, Serial.print(uuid));  // 36 + \n\r
+  assertEqual(36, Serial.print(uuid));    // 36
+  assertEqual(38, Serial.println(uuid));  // 36 + \n\r
 }
 
 
