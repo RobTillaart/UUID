@@ -53,7 +53,7 @@ void UUID::generate()
 
     _buffer[j]   = (ch < 10) ? '0' + ch : 'a' - 10 + ch;
   }
-  _buffer[37] = 0;
+  _buffer[36] = 0;
 }
 
 

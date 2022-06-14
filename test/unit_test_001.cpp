@@ -72,12 +72,13 @@ unittest(test_layout)
   
   uuid.generate();
   strcpy(u, uuid.toCharArray());
+  fprintf(stderr, ">%s<\n", uuid.toCharArray());
   assertEqual(36, strlen(u));
 
-  assertEqual(u[8], '-');
-  assertEqual(u[12], '-');
-  assertEqual(u[16], '-');
-  assertEqual(u[20], '-');
+  assertEqual('-', u[8]);
+  assertEqual('-', u[13]);
+  assertEqual('-', u[18]);
+  assertEqual('-', u[23]);
 }
 
 
