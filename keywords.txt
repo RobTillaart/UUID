@@ -5,9 +5,9 @@ UUID	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
-begin	KEYWORD2
+seed	KEYWORD2
 generate	KEYWORD2
-count	KEYWORD2
+toCharArray	KEYWORD2
 
 
 # Constants (LITERAL1)

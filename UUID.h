@@ -27,9 +27,11 @@ class UUID : public Printable
 public:
   UUID();
 
-  //  at least one seed value is mandatory
+  //  at least one seed value is mandatory, two is better.
   void     seed(uint32_t s1, uint32_t s2 = 0);
+  //  generate a new UUID
   void     generate();
+  //  make a UUID string
   char *   toCharArray();
   
   //  Printable interface
@@ -37,14 +39,15 @@ public:
 
 
 private:
-  //  Marsaglia 'constants'
+  //  Marsaglia 'constants' + function
   uint32_t _m_w = 1;
   uint32_t _m_z = 2;
   uint32_t _random();
 
-  uint32_t _ar[4];
-  char     _buffer[40];
-  bool     _dirty = true;
+  // 
+  uint32_t _ar[4];          //  UUID in numeric format
+  char     _buffer[37];     //  UUID in string format
+  bool     _dirty = true;   //  if true buffer need rebuild.
 };
 
 

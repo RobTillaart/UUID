@@ -8,21 +8,23 @@
 
 # UUID
 
-Arduino Library for generating UUID strings.
+Arduino library for generating UUID strings.
 
 
 ## Description
 
 This experimental library provides a UUID generator.
 
-The basis for the UUID is a pseudo random number generator.
+The basis for the UUID is a Marsaglia pseudo random number generator.
 This must be seeded with two random numbers to get real usable UUID's.
 
-In such this is for experimental sue only.
+In such this is for experimental use only.
 
 Tested on Arduino UNO only.
 
 // e.g. 20D24650-D900-E34F-DE49-8964AB3EB46D
+// version uuid?
+// layout  rfc4122
 
 
 ## Interface
@@ -33,23 +35,28 @@ Tested on Arduino UNO only.
 Use **\#include "UUID.h"**
 
 - **UUID()** Constructor, initializes internals.
-- **void seed(uint32_t s1, uint32_t s2 = 0)** resets the internals.
-mandatory setting start values for s1 and optional for s2.
-- **void generate()** generates new random numbers for UUID
-- **char \* toCharArray()** returns a pointer to internal char buffer.
+- **void seed(uint32_t s1, uint32_t s2 = 0)** reseeds the internal 
+pseudo random number generator.
+Mandatory to set s1 while s2 is optional.
+- **void generate()** generates new random numbers for a new UUID.
+- **char \* toCharArray()** returns a pointer to a char buffer 
+representing the last generated UUID.
 
 
 ### Printable 
 
 The UUID class implements the printable interface.
 This allows one to print the UUID object directly.
-This uses the **toCharArray()** internally.
+To do so it uses the **toCharArray()** internally.
 
 ```cpp
 UUID uuid;
 
 Serial.println(uuid);
 ```
+
+Note: there is a knwon compile warning on AVR on this. 
+
 
 #### Performance
 
@@ -78,20 +85,37 @@ Note: compile warning ...
 
 ## Future
 
-- update documentation
+### General
+
+- improve documentation
   - external random input needed
+  - GUID, UUID, versions (links)
+  - background 
+  - RFC layout
+- test other platforms
 - investigate entropy harvesting
   - freeRAM, micros, timers, RAM, USB-ID, ...
-- test other platforms
-- improve performance of **toCharArray()**
-- add **setSeparator(char)** ? + getter?
-- Fix compile warning - printTo().
-- add example ESP32 UUID server 
-  - using timing of the calls as entropy !
-- add example
-  - RTC for entropy
+
+### Functions
+
+- add **setSeparator(char)** and **getSeparator()** ?
+  - one char
+- add **setUpperCase()** and **setLowerCase()**, **isUpperCase()**
+  - one bool flag 
 - add flag for generate to call **toCharArray()** (so it is not dirty)
 
+### Examples
 
+- ESP32 UUID server 
+  - using timing of the calls as entropy !
+- RTC for entropy
+
+### Fixes / optimizations
+
+- improve performance of **toCharArray()**
+- reduce footprint
+  - can the buffer be reduced?
+  - smaller random generator?
+- Fix compile warning - printTo().
 
 

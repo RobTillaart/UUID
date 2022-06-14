@@ -38,22 +38,52 @@ unittest_teardown()
 }
 
 
-unittest(test_constants)
-{
-  assertEqual(0, 0);
-}
-
-
 unittest(test_generate)
 {
   UUID uuid;
-  assertEqual(0, uuid.count());
-  assertEqual(1, uuid.generate());
-  assertEqual(1, uuid.count());
+  char u[40], v[40], w[40];
+  
+  uuid.generate();
+  strcpy(u, uuid.toCharArray());
+  assertEqual(36, strlen(u));
+
+  strcpy(v, uuid.toCharArray());
+  assertEqual(36, strlen(v));
+  assertEqual(u, v);
+
+  uuid.generate();
+  strcpy(v, uuid.toCharArray());
+  assertEqual(36, strlen(v));
+
+  uuid.generate();
+  strcpy(w, uuid.toCharArray());
+  assertEqual(36, strlen(w));
+  
+  assertNotEqual(u, v);
+  assertNotEqual(u, w);
+  assertNotEqual(w, v);
+}
+
+
+unittest(test_layout)
+{
+  UUID uuid;
+  char u[40];
+  
+  uuid.generate();
+  strcpy(u, uuid.toCharArray());
+  assertEqual(36, strlen(u));
+
+  assertEqual(u[08], '-');
+  assertEqual(u[12], '-');
+  assertEqual(u[16], '-');
+  assertEqual(u[20], '-');
 }
 
 
 
 unittest_main()
 
+
 // --------
+

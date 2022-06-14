@@ -1,6 +1,6 @@
 {
-  "name": "Arduino Library for generating UUID's",
-  "keywords": "UUID",
+  "name": "UUID",
+  "keywords": "UUID, GUID",
   "description": "Arduino library for generating UUID's. (experimental).",
   "authors":
   [
