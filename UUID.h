@@ -33,7 +33,7 @@ public:
   void     generate();
   //  make a UUID string
   char *   toCharArray();
-  
+
   //  Printable interface
   size_t   printTo(Print& p) const;
 
@@ -44,10 +44,8 @@ private:
   uint32_t _m_z = 2;
   uint32_t _random();
 
-  // 
-  uint32_t _ar[4];          //  UUID in numeric format
-  char     _buffer[37];     //  UUID in string format
-  bool     _dirty = true;   //  if true buffer need rebuild.
+  //  UUID in string format
+  char     _buffer[37];
 };
 
 
