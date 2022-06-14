@@ -27,7 +27,7 @@ void setup()
   uuid.seed(2);
   stop = micros();
 
-  Serial.print("             seed: ");
+  Serial.print("       seed: ");
   Serial.println(stop - start);
   delay(100);
 
@@ -35,7 +35,7 @@ void setup()
   uuid.generate();
   stop = micros();
 
-  Serial.print("         generate: ");
+  Serial.print("   generate: ");
   Serial.println(stop - start);
   delay(100);
 
@@ -43,17 +43,8 @@ void setup()
   uuid.toCharArray();
   stop = micros();
 
-  Serial.print("toCharArray dirty: ");
+  Serial.print("toCharArray: ");
   Serial.println(stop - start);
-  delay(100);
-
-  start = micros();
-  uuid.toCharArray();
-  stop = micros();
-
-  Serial.print("toCharArray clean: ");
-  Serial.println(stop - start);
-  Serial.println();
   delay(100);
 
   Serial.print("UUID: ");

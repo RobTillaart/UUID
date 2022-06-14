@@ -18,7 +18,6 @@ UUID::UUID()
 {
   seed(1, 2);
   generate();
-  _dirty = true;
 }
 
 

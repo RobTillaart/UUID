@@ -38,7 +38,7 @@ Use **\#include "UUID.h"**
 - **void seed(uint32_t s1, uint32_t s2 = 0)** reseeds the internal 
 pseudo random number generator.
 Mandatory to set s1 while s2 is optional.
-- **void generate()** generates new random numbers for a new UUID.
+- **void generate()** generates a new UUID.
 - **char \* toCharArray()** returns a pointer to a char buffer 
 representing the last generated UUID.
 
@@ -55,7 +55,7 @@ UUID uuid;
 Serial.println(uuid);
 ```
 
-Note: there is a knwon compile warning on AVR on this. 
+Note: there is a known compile warning on AVR on this. 
 
 
 #### Performance
@@ -63,15 +63,14 @@ Note: there is a knwon compile warning on AVR on this.
 Not tested ESP32 (and many other platforms) yet.
 First numbers measured with **UUID_test.ino** shows the following timing.
 
-| Version |  Function         |  UNO 16 MHz  |  ESP32 240 MHz  |
-|:-------:|:------------------|:------------:|:---------------:|
-| 0.1.0   | seed              |       4 us   |                 |
-| 0.1.0   | generate          |      44 us   |                 |
-| 0.1.0   | toCharArray dirty |     360 us   |                 |
-| 0.1.0   | toCharArray clean |       8 us   |                 |
+| Version |  Function    |  UNO 16 MHz  |  ESP32 240 MHz  |
+|:-------:|:-------------|:------------:|:---------------:|
+| 0.1.0   | seed         |       4 us   |                 |
+| 0.1.0   | generate     |     412 us   |                 |
+| 0.1.0   | toCharArray  |       4 us   |                 |
 
-The performance of **char \* toCharArray()** depends on the dirty flag
-which is set if a new UUID is generated.
+
+The performance of **generate()** must be improved if possible.
 
 Note an UNO can generate 2000++ UUID's per second.
 
@@ -101,8 +100,7 @@ Note: compile warning ...
 - add **setSeparator(char)** and **getSeparator()** ?
   - one char
 - add **setUpperCase()** and **setLowerCase()**, **isUpperCase()**
-  - one bool flag 
-- add flag for generate to call **toCharArray()** (so it is not dirty)
+  - one bool flag
 
 ### Examples
 
@@ -112,10 +110,8 @@ Note: compile warning ...
 
 ### Fixes / optimizations
 
-- improve performance of **toCharArray()**
+- improve performance of **generate()**
 - reduce footprint
   - can the buffer be reduced?
   - smaller random generator?
-- Fix compile warning - printTo().
-
 
