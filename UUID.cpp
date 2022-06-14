@@ -12,6 +12,8 @@
 //  0.1.1   2022-06-15   improve performance generate()
 //                       minor edits in readme.md
 //                       fix bug in generator
+//                       define UUID_MODE_VARIANT4
+//                       define UUID_MODE_RANDOM
 
 
 
@@ -21,6 +23,7 @@
 UUID::UUID()
 {
   seed(1, 2);
+  setVariant4Mode();
   generate();
 }
 
@@ -35,7 +38,7 @@ void UUID::seed(uint32_t s1, uint32_t s2)
 }
 
 
-void UUID::generate(bool rnd)
+void UUID::generate()
 {
   uint32_t _ar[4];
   for (uint8_t i = 0; i < 4; i++)
@@ -44,7 +47,7 @@ void UUID::generate(bool rnd)
   }
   
   //  patch bits for version 1 and variant 4 here
-  if (rnd == false)
+  if (_mode == UUID_MODE_VARIANT4)
   {
     _ar[1] &= 0xFFF0FFFF;   //  remove 4 bits.
     _ar[1] |= 0x00040000;   //  variant 4
@@ -52,7 +55,10 @@ void UUID::generate(bool rnd)
     _ar[2] |= 0x00000008;   //  version 1
   }
 
-  //  TODO improve efficiency if possible.
+  //  store globally ?
+
+
+  //  build up the char array.
   for (uint8_t i = 0, j = 0; i < 32; i++, j++)
   {
     if (i == 8)       _buffer[j++] = '-';

@@ -39,7 +39,7 @@ Often one sees also the term GUID = Globally Unique Identifier.
 Tested on Arduino UNO only.
 
 - https://en.wikipedia.org/wiki/Universally_unique_identifier
-- https://en.wikipedia.org/wiki/GUID
+- https://www.ietf.org/rfc/rfc4122.txt
 
 
 ## Interface
@@ -56,14 +56,22 @@ The UUID class has only a few methods.
 pseudo random number generator.
 It is mandatory to set s1 while s2 is optional.
 The combination {0, 0} is not allowed and overruled in software.
-- **void generate(bool rnd)** generates a new UUID.
-  - if rnd == true, all UUID bits are random. (== fastest mode).
-  - if rnd == false, the UUID (tries to) conform to version 4 variant 1.
-  see above.
+- **void generate()** generates a new UUID depending on the mode.
+  - **UUID_MODE_RANDOM**: all UUID bits are random. (== fastest mode).
+  - **UUID_MODE_VARIANT4**: the UUID (tries to) conform to version 4 variant 1. See above.
 - **char \* toCharArray()** returns a pointer to a char buffer 
 representing the last generated UUID. 
 Multiple subsequent calls to **toCharArray()** gives the same UUID 
 until **generate()** is called.
+
+
+### Mode
+
+Only two modi are supported. Default is the **UUID_MODE_VARIANT4**.
+
+- **void setVariant4Mode()** set mode to **UUID_MODE_VARIANT4**.
+- **void setRandomMode()** set mode to **UUID_MODE_RANDOM**.
+- **uint8_t getMode()** returns mode set.
 
 
 ### Printable 
@@ -96,8 +104,7 @@ Note that 0.1.1 has 2x better performance on AVR.
 | 0.1.0   | generate     |     412 us   |                 |
 | 0.1.0   | toCharArray  |       4 us   |                 |
 | 0.1.1   | seed         |       4 us   |                 |
-| 0.1.1   | generate(T)  |     244 us   |                 | 
-| 0.1.1   | generate(F)  |     248 us   |                 | 
+| 0.1.1   | generate     |     248 us   |                 | 
 | 0.1.1   | toCharArray  |       4 us   |                 |
 
 
@@ -106,8 +113,7 @@ UUID's per second
 | Version |  UNO 16 MHz  |  ESP32 240 MHz  | notes  |
 |:-------:|:------------:|:---------------:|:------:|
 | 0.1.0   |    2000++    |                 |
-| 0.1.1   |    4000++    |                 | use generate(true);
-| 0.1.1   |    4000++    |                 | use generate(false);
+| 0.1.1   |    4000++    |                 | generate both modes
 
 Note that this maximum is not realistic e.g. for a server where also
 other tasks need to be done (listening, transfer etc).
@@ -124,11 +130,11 @@ See examples.
 
 - improve documentation
   - external random input needed
-  - GUID, UUID, versions (links)
   - background
 - test other platforms
 - investigate entropy harvesting
   - freeRAM, micros, timers, RAM, USB-ID, ...
+
 
 ### Functions
 
@@ -137,8 +143,7 @@ See examples.
 - add **setUpperCase()** and **setLowerCase()**, **isUpperCase()**
   - one bool flag
 - binary output in a byte array ?
-- follow the RFC4122 in terms of the content.
-  - should be version 4 (random)  variant 1
+
 
 ### Examples
 

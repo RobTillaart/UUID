@@ -17,6 +17,10 @@
 
 #define UUID_LIB_VERSION              (F("0.1.1"))
 
+//  TODO an enum?
+#define UUID_MODE_VARIANT4            0
+#define UUID_MODE_RANDOM              1
+
 
 /////////////////////////////////////////////////
 //
@@ -30,11 +34,13 @@ public:
   //  at least one seed value is mandatory, two is better.
   void     seed(uint32_t s1, uint32_t s2 = 0);
   //  generate a new UUID
-  //  rnd = true makes all bits of the UUID random
-  //  rnd = false generate a version 4, variant 1 UUID.
-  void     generate(bool rnd = false);
+  void     generate();
   //  make a UUID string
   char *   toCharArray();
+
+  void     setVariant4Mode() { _mode = UUID_MODE_VARIANT4; };
+  void     setRandomMode()   { _mode = UUID_MODE_RANDOM; };
+  uint8_t  getMode() { return _mode; };
 
   //  Printable interface
   size_t   printTo(Print& p) const;
@@ -48,6 +54,7 @@ private:
 
   //  UUID in string format
   char     _buffer[37];
+  uint8_t  _mode = UUID_MODE_VARIANT4;
 };
 
 
