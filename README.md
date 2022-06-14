@@ -67,8 +67,8 @@ First numbers measured with **UUID_test.ino** shows the following timing.
 |:-------:|:------------------|:------------:|:---------------:|
 | 0.1.0   | seed              |       4 us   |                 |
 | 0.1.0   | generate          |      44 us   |                 |
-| 0.1.0   | toCharArray dirty |     352 us   |                 |
-| 0.1.0   | toCharArray clean |       4 us   |                 |
+| 0.1.0   | toCharArray dirty |     360 us   |                 |
+| 0.1.0   | toCharArray clean |       8 us   |                 |
 
 The performance of **char \* toCharArray()** depends on the dirty flag
 which is set if a new UUID is generated.
