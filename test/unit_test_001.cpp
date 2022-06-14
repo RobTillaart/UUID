@@ -38,6 +38,13 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(0, UUID_MODE_VARIANT4);
+  assertEqual(1, UUID_MODE_RANDOM);
+}
+
+
 unittest(test_generate)
 {
   UUID uuid;

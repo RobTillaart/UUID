@@ -22,14 +22,15 @@ These are typically written in the following format, defined in RFC 4122.
                   ^    ^
 ```
 
-The length is 32 HEX digits + four hyphens = 36 characters.
-Note that the HEX digits are lower case.
+The length is 32 hexadecimal digits + four hyphens = 36 characters.
+Note that the hexadecimal digits are lower case.
 
 The 0.1.1 version of the lib tries to follow the RFC4122, 
-for version 4 and variant 1.
+for version 4 (random generated) and variant 1.
 In the format above the version 4 is indicated by the first arrow and must be 4.
 The variant 1 is at the position of the second arrow. 
 This nibble must be 8,9, a or b.
+All the remaining bits are random.
 
 The basis for the UUID class is a Marsaglia pseudo random number generator.
 This PRNG must be seeded with two real random uint32_t to get real random UUID's.
@@ -57,12 +58,12 @@ pseudo random number generator.
 It is mandatory to set s1 while s2 is optional.
 The combination {0, 0} is not allowed and overruled in software.
 - **void generate()** generates a new UUID depending on the mode.
-  - **UUID_MODE_RANDOM**: all UUID bits are random. (== fastest mode).
+  - **UUID_MODE_RANDOM**: all UUID bits are random.
   - **UUID_MODE_VARIANT4**: the UUID (tries to) conform to version 4 variant 1. See above.
 - **char \* toCharArray()** returns a pointer to a char buffer 
 representing the last generated UUID. 
 Multiple subsequent calls to **toCharArray()** gives the same UUID 
-until **generate()** is called.
+until **generate()** is called again.
 
 
 ### Mode
@@ -135,13 +136,16 @@ See examples.
 - test other platforms
 - investigate entropy harvesting
   - freeRAM, micros, timers, RAM, USB-ID, ...
-
+- GUID as derived class?
+  - (further identical?)
 
 ### Functions
 
 - add **setUpperCase()** and **setLowerCase()**, **isUpperCase()**
   - one bool flag
-- binary output in a byte array ?
+- binary output in a byte array
+  - **getBinary(uint8_t \* array)**
+  - need to store them from generate.  
 
 
 ### Examples
