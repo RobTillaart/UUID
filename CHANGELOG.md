@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update GitHub actions
 - update license 2023
 - update readme.md
+- add **UUID_random_ESP32.ino** seed UUID with build in RNG.
 - move code to .cpp
 - minor edits
 
