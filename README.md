@@ -230,11 +230,13 @@ Performance on other boards welcome.
   - **getBinary(uint8_t \* array)**
   - need to store them from generate.  
 - add **setUpperCase()** and **setLowerCase()**, **isUpperCase()**
-  - one bool flag  (not part of the spec, user can do this)
+  - one bool flag  (user can do this)
 - derived class UUID_10 which only uses digits
   - use overflow / error propagation from one byte to next.
 - derived class UUID_CH which uses 'g'..'v' 
   - same algorithm guaranteed disjunct set.
+- add NULL-UUID as constant? 
+- add MAX-UUID as constant?
 
 
 ## Support
