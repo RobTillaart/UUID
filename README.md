@@ -45,9 +45,15 @@ Often one sees also the term GUID = Globally Unique Identifier.
 
 Tested on Arduino UNO + ESP32.
 
+
+### Related
+
 - https://en.wikipedia.org/wiki/Universally_unique_identifier
 - https://www.ietf.org/rfc/rfc4122.txt
 
+UUID is also available as ESP32 component (Kudos to KOIO5)
+
+- https://github.com/K0I05/ESP32-S3_ESP-IDF_COMPONENTS/tree/main/components/utilities/esp_uuid
 
 ## Interface
 
@@ -55,7 +61,7 @@ Tested on Arduino UNO + ESP32.
 #include "UUID.h"
 ```
 
-#### UUID class
+### UUID class
 
 The UUID class has only a few methods.
 
@@ -73,7 +79,7 @@ Multiple subsequent calls to **toCharArray()** gives the same UUID
 until **generate()** is called again.
 
 
-#### Mode
+### Mode
 
 Only two modi are supported, default is the **UUID_MODE_VARIANT4**.
 This is conform RFC-4122.
@@ -83,7 +89,7 @@ This is conform RFC-4122.
 - **uint8_t getMode()** returns mode set.
 
 
-#### Printable 
+### Printable 
 
 The UUID class implements the Printable interface.
 This allows one to print the UUID object directly over Serial and any other
@@ -105,7 +111,7 @@ Serial.println(uuid.toCharArray());
 Performance measured with **UUID_test.ino** shows the following times:
 
 
-#### microseconds per byte
+### microseconds per byte
 
 |  Version  |   Function    |  UNO 16 MHz  |  ESP32 240 MHz  |
 |:---------:|:--------------|:------------:|:---------------:|
@@ -128,7 +134,7 @@ Performance measured with **UUID_test.ino** shows the following times:
 Note: generating the 16 random bytes already takes ~40 us (UNO).
 
 
-#### UUID's per second
+### UUID's per second
 
 indicative maximum performance (see example sketch)
 
@@ -165,35 +171,36 @@ Other tasks need to be done too (listening, transfer etc.).
   - buffer as static char in generate is ~2% faster on AVR
     (not shocking, impact ?)
   - smaller / faster random generator?
+-  use compile constants __FILE__, __DATE__ and __TIME__ as initial seed.
+
 
 #### Could
 
-- investigate entropy harvesting
-  - micros() between calls.
-  - freeRAM, timers, RAM, USB-ID, ...
-  - compile constants __DATE__ and __TIME__
-  - see example
-- auto reseed function?
-  - e.g. micros() between calls.
 - GUID as derived class?
   - (further identical?)
 - add **setUpperCase()** and **setLowerCase()**, **isUpperCase()**
   - one bool flag
-- binary output in a byte array
-  - **getBinary(uint8_t \* array)**
-  - need to store them from generate.  
+- investigate entropy harvesting
+  - micros() between calls.
+  - freeRAM, timers, RAM, USB-ID, ...
+  - see example
+- auto reseed function?
+  - e.g. micros() between calls.
 - add examples
   - ESP32 UUID server => using timing of the calls as entropy !
   - RTC for entropy
   - EEPROM to store last seeds? (n)
 
-### Won't
+### Won't (unless)
 
 - support for { and }
 - add **setSeparator(char)** and **getSeparator()** ?  
   - minus is the RFC specification.
 - move code to .h so compiler can optimize more?
 - **next()** add 1 to UUID to generate a continuous sequence ?
+- binary output in a byte array
+  - **getBinary(uint8_t \* array)**
+  - need to store them from generate.  
 
 
 ## Support

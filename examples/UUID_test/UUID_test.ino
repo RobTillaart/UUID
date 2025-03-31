@@ -2,6 +2,7 @@
 //    FILE: UUID_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/UUID
 
 
 #include "Arduino.h"
@@ -19,9 +20,10 @@ void setup()
   while (!Serial);
 
   Serial.println();
-  Serial.println("UUID_test.ino");
+  Serial.println(__FILE__);
   Serial.print("UUID_LIB_VERSION: ");
   Serial.println(UUID_LIB_VERSION);
+  Serial.println();
   delay(100);
   
   start = micros();

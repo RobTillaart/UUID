@@ -6,9 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.7] - 2025-03-29
+- update readme.md with ESP Component reference, thanks to KOIO5
+- update examples - add URL.
+- minor edits
+
 ## [0.1.6] - 2023-11-23
 - update readme.md
-
 
 ## [0.1.5] - 2022-11-26
 - update GitHub actions

@@ -2,11 +2,11 @@
 //    FILE: UUID_random_ESP32.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/UUID
 
 
 #include "Arduino.h"
 #include "UUID.h"
-
 
 UUID uuid;
 
@@ -19,9 +19,10 @@ void setup()
   while (!Serial);
 
   Serial.println();
-  Serial.println("UUID_test.ino");
+  Serial.println(__FILE__);
   Serial.print("UUID_LIB_VERSION: ");
   Serial.println(UUID_LIB_VERSION);
+  Serial.println();
 
   uint32_t seed1 = random(999999999);
   uint32_t seed2 = random(999999999);

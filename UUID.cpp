@@ -1,7 +1,7 @@
 //
 //    FILE: UUID.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2022-06-14
 // PURPOSE: Arduino Library for generating UUID's
 //     URL: https://github.com/RobTillaart/UUID
@@ -13,6 +13,10 @@
 
 UUID::UUID()
 {
+  //  seed - differs per compile - investigate how to differ runtime.
+  //  see UUID_random_seed.ino
+  //  s1 = hash(__FILE__,__TIME__) 
+  //  s2 = hash(__DATE__,__TIME__)
   seed(1, 2);
   setVariant4Mode();
   generate();

@@ -2,11 +2,14 @@
 //    FILE: UUID_minimum.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo - will generate same UUID's  (no external entropy)
+//     URL: https://github.com/RobTillaart/UUID
+
 
 #include "Arduino.h"
 #include "UUID.h"
 
 UUID uuid;
+
 
 void setup()
 {
@@ -14,9 +17,10 @@ void setup()
   while (!Serial);
 
   Serial.println();
-  Serial.println("UUID_minimum.ino");
+  Serial.println(__FILE__);
   Serial.print("UUID_LIB_VERSION: ");
   Serial.println(UUID_LIB_VERSION);
+  Serial.println();
 }
 
 
@@ -29,4 +33,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
