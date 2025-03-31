@@ -19,8 +19,7 @@
 
 //  TODO an enum?
 const uint8_t UUID_MODE_RANDOM   = 0;
-const uint8_t UUID_MODE_VARIANT4 = 4;  //  will become obsolete
-const uint8_t UUID_MODE_VERSION4 = 4;  //
+const uint8_t UUID_MODE_VERSION4 = 4;  //  replaces VARIANT4
 const uint8_t UUID_MODE_VERSION8 = 8;  //  not supported yet
 
 
@@ -70,7 +69,7 @@ private:
   //  UUID in string format
   char     _buffer[37];
   //  default mode.
-  int      _mode = UUID_MODE_VARIANT4;
+  int      _mode = UUID_MODE_VERSION4;
 };
 
 

@@ -49,12 +49,11 @@ Feedback as always is welcome.
 
 ### Breaking change in 0.2.0
 
-The return value of getMode is now more logical as variant4 == 4, instead of 0.
+The 0.2.0 version and up will be based upon **RFC-9562** as RFC-4122 is obsolete.
 
 The setVariant4Mode() is deprecated, use **setVersion4Mode()** instead.
 
-The 0.2.0 version and up will be based upon **RFC-9562** as RFC-4122 is obsolete.
-
+The return value of getMode is now more logical as version4 == 4, instead of 0.
 
 ### GUID
 
@@ -99,7 +98,7 @@ It is typically used in databases.
 rules so they may encode anything or being random. 
 
 
-The UUID class only implements version 4, variant 1 with the badly chosen name **UUID_MODE_VARIANT4**. 
+The UUID class only implements version 4, variant 1. 
 The **UUID_MODE_RANDOM** of this UUID class is not one of the 8 official 
 versions. It is not even version 8. 
 
@@ -134,7 +133,7 @@ The combination {0, 0} is not allowed and overruled by (1, 2) in software.
 
 - **void generate()** generates a new UUID depending on the mode.
   - **UUID_MODE_RANDOM**: all UUID bits are random.
-  - **UUID_MODE_VARIANT4**: the UUID (tries to) conform to version 4 variant 1. See above. This is the default.
+  - **UUID_MODE_VERSION4**: the UUID (tries to) conform to version 4 variant 1. See above. This is the default.
 - **char \* toCharArray()** returns a pointer to a char buffer 
 representing the last generated UUID. 
 Multiple subsequent calls to **toCharArray()** will return the **same UUID**
@@ -147,10 +146,10 @@ The version is encoded in the version nibble 14.
 
 ### Mode
 
-Only two modi are supported, default is the **UUID_MODE_VARIANT4**.
+Only two modi are supported, default is the **UUID_MODE_VERSION4**.
 This is conform RFC-4122.
 
-- **void setVariant4Mode()** set mode to **UUID_MODE_VARIANT4** (== 4).
+- **void setVersion4Mode()** set mode to **UUID_MODE_VERSION4** (== 4).
 - **void setRandomMode()** set mode to **UUID_MODE_RANDOM** (== 0).
 - **uint8_t getMode()** returns mode set, note these numbers have changed in 0.2.0
 
@@ -226,6 +225,8 @@ Note that 0.2.0 has become faster, especially for ESP32.
 
 Note that these maxima are not realistic e.g. for a server.
 Other tasks need to be done too (listening, transfer etc.).
+
+Note VARIANT4 is renamed to VERSION4 (0.2.0)
 
 Performance on other boards welcome.
 
