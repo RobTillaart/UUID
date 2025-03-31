@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - optimize performance (especially ESP32)
 - add compile time initialization of randomizer in constructor.
 - add GUID derived class (identical == wrapper)
+- fix unit test
 - add examples
 - add URL to examples
 - minor edits

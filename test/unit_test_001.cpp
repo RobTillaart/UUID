@@ -85,7 +85,7 @@ unittest(test_layout)
 
   assertEqual('-', u[8]);
   assertEqual('-', u[13]);
-  assertEqual('4', u[15]);
+  assertEqual('4', u[14]);
   assertEqual('-', u[18]);
   assertEqual('-', u[23]);
 }

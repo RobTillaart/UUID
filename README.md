@@ -56,7 +56,9 @@ Since 0.2.0 this library has a **GUID** derived class which is a wrapper around 
 ### Related
 
 - https://en.wikipedia.org/wiki/Universally_unique_identifier
-- https://www.ietf.org/rfc/rfc4122.txt
+- https://www.ietf.org/rfc/rfc4122.txt (obsolete)
+- https://www.ietf.org/rfc/rfc9562
+- https://datatracker.ietf.org/doc/html/rfc9562 (html)
 - https://github.com/RobTillaart/UUID  (this library)
 - https://github.com/RobTillaart/randomHelpers
 
@@ -190,34 +192,29 @@ Performance on other boards welcome.
   - background
 - test other platforms
 
+
 #### Should
 
-
-- use compile constants __FILE__, __DATE__ and __TIME__ as initial seed.
-  - option in constructor?
-- optimize
-  - reduce footprint
-  - buffer as static char in generate is ~2% faster on AVR
-    (not shocking, impact ?)
-  - smaller / faster random generator?
-
-
-#### Could
-
+- investigate rfc9562, for more variants.
 - investigate entropy harvesting
   - micros() between calls.
   - freeRAM, timers, RAM, USB-ID, ...
   - see example
 - auto reseed function?
   - e.g. micros() between calls.
+
+
+#### Could
+
 - add examples
   - ESP32 UUID server => using timing of the calls as entropy !
   - RTC for entropy
   - EEPROM to store last seeds? (n)
-- derived class UUID_10 which only uses digits
-  - use overflow / error propagation from one byte to next.
-- derived class UUID_CH which uses 'g'..'v' 
-  - same algorithm guaranteed disjunct set.
+- optimize
+  - reduce footprint
+  - buffer as static char in generate is ~2% faster on AVR
+    (not shocking, impact ?)
+  - smaller / faster random generator?
 
 
 ### Won't (unless)
@@ -234,6 +231,11 @@ Performance on other boards welcome.
   - need to store them from generate.  
 - add **setUpperCase()** and **setLowerCase()**, **isUpperCase()**
   - one bool flag  (not part of the spec, user can do this)
+- derived class UUID_10 which only uses digits
+  - use overflow / error propagation from one byte to next.
+- derived class UUID_CH which uses 'g'..'v' 
+  - same algorithm guaranteed disjunct set.
+
 
 ## Support
 
