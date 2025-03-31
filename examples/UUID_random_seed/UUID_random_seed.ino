@@ -1,7 +1,7 @@
 //
 //    FILE: UUID_random_seed.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo randomize seed
 //     URL: https://github.com/RobTillaart/UUID
 
 
@@ -10,7 +10,7 @@
 
 UUID uuid;
 
-uint32_t start, stop, randomtime;
+uint32_t start, stop;
 
 
 void setup()

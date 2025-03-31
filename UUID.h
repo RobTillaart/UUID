@@ -32,7 +32,10 @@ public:
   UUID();
 
   //  at least one seed value is mandatory, two is better.
+  //  seed can be random or explicitly fixed.
   void     seed(uint32_t s1, uint32_t s2 = 0);
+  //  void     autoSeed();  //  TODO experimental 
+
   //  generate a new UUID
   void     generate();
   //  make a UUID string
@@ -52,6 +55,7 @@ private:
   uint32_t _m_w = 1;
   uint32_t _m_z = 2;
   uint32_t _random();
+  uint32_t _hash(const char * str);
 
   //  UUID in string format
   char     _buffer[37];

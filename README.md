@@ -65,29 +65,35 @@ UUID is also available as ESP32 component (Kudos to KOIO5)
 - https://github.com/K0I05/ESP32-S3_ESP-IDF_COMPONENTS/tree/main/components/utilities/esp_uuid
 
 
-
-
 ## Interface
 
 ```cpp
 #include "UUID.h"
 ```
 
-### UUID class
+### Constructor
 
 The UUID class has only a few methods.
 
-- **UUID()** Constructor, initializes internals an generates a default UUID.
+- **UUID()** Constructor, initializes internals based upon a hash of the FILE, DATE and TIME
+compile parameters, then it generates a first UUID.
+This gives a different sequence of UUID's if the same code is recompiled.
 - **void seed(uint32_t s1, uint32_t s2 = 0)** reseeds the internal 
 pseudo random number generator.
-It is mandatory to set s1 while s2 is optional.
-The combination {0, 0} is not allowed and overruled in software.
+This allows to force the same sequences to be generated. 
+This is usable for testing and specific applications.
+Note it is mandatory to set **s1** while **s2** is optional.
+The combination {0, 0} is not allowed and overruled by (1, 2) in software.
+
+
+### Generate 
+
 - **void generate()** generates a new UUID depending on the mode.
   - **UUID_MODE_RANDOM**: all UUID bits are random.
   - **UUID_MODE_VARIANT4**: the UUID (tries to) conform to version 4 variant 1. See above. This is the default.
 - **char \* toCharArray()** returns a pointer to a char buffer 
 representing the last generated UUID. 
-Multiple subsequent calls to **toCharArray()** gives the same UUID 
+Multiple subsequent calls to **toCharArray()** will return the **same UUID**
 until **generate()** is called again.
 
 
@@ -120,10 +126,9 @@ Serial.println(uuid.toCharArray());
 
 ## Performance
 
-Performance measured with **UUID_test.ino** shows the following times:
+### microSeconds per function call
 
-
-### microseconds per byte
+Indicative performance per function measured with **UUID_test.ino**.
 
 |  Version  |   Function    |  UNO 16 MHz  |  ESP32 240 MHz  |
 |:---------:|:--------------|:------------:|:---------------:|
@@ -142,13 +147,17 @@ Performance measured with **UUID_test.ino** shows the following times:
 |   0.1.5   |  seed         |      4 us    |       4 us      |
 |   0.1.5   |  generate     |    120 us    |      15 us      |
 |   0.1.5   |  toCharArray  |      4 us    |       1 us      |
+|   -       |  -            |              |                 |
+|   0.2.0   |  seed         |      4 us    |       5 us      |
+|   0.2.0   |  generate     |    120 us    |      13 us      |
+|   0.2.0   |  toCharArray  |      4 us    |       2 us      |
 
 Note: generating the 16 random bytes already takes ~40 us (UNO).
 
 
 ### UUID's per second
 
-indicative maximum performance figures in UUID's per second, 
+Indicative maximum performance figures in UUID's per second, 
 measured by UUID_performance.ino.
 Note that 0.2.0 has become faster, especially for ESP32.
 
@@ -205,6 +214,10 @@ Performance on other boards welcome.
   - ESP32 UUID server => using timing of the calls as entropy !
   - RTC for entropy
   - EEPROM to store last seeds? (n)
+- derived class UUID_10 which only uses digits
+  - use overflow / error propagation from one byte to next.
+- derived class UUID_CH which uses 'g'..'v' 
+  - same algorithm guaranteed disjunct set.
 
 
 ### Won't (unless)

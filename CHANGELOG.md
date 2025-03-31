@@ -9,8 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.2.0] - 2025-03-29
 - update readme.md with ESP Component reference, thanks to KOIO5
 - optimize performance (especially ESP32)
+- add compile time initialization of randomizer in constructor.
 - add GUID derived class (identical == wrapper)
-- update examples - add URL.
+- add examples
+- add URL to examples
 - minor edits
 
 ----

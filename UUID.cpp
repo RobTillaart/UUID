@@ -13,11 +13,13 @@
 
 UUID::UUID()
 {
-  //  seed - differs per compile - investigate how to differ runtime.
-  //  see UUID_random_seed.ino
-  //  s1 = hash(__FILE__,__TIME__)
-  //  s2 = hash(__DATE__,__TIME__)
-  seed(1, 2);
+  //  seed - differs per construction on compile time constants
+  //         and multiplication with micros().
+  //  TODO investigate how to differ better at runtime.
+  uint32_t s2 = _hash(__TIME__) * micros();
+  uint32_t s1 = s2 ^ _hash(__DATE__);
+           s2 = s2 ^ _hash(__FILE__);
+  seed(s1, s2);
   setVariant4Mode();
   generate();
 }
@@ -31,6 +33,18 @@ void UUID::seed(uint32_t s1, uint32_t s2)
   _m_w = s1;
   _m_z = s2;
 }
+
+
+// void UUID::autoSeed()
+// {
+  // static uint32_t lastMicros = 0;
+  // uint32_t now = micros();
+  // _m_w ^= now;
+  // if (_m_w == 0) _m_w = 1
+  // _m_z ^= (now - lastMicros);
+  // if (_m_z == 0) _m_z = _m_w * 2;
+  // lastMicros = now;
+// }
 
 
 //  check version 0.1.1 for more readable code
@@ -142,6 +156,18 @@ uint32_t UUID::_random()
   return (_m_z << 16) + _m_w;  //   32-bit result
 }
 
+
+uint32_t UUID::_hash(const char * str)
+{
+  //  very simple hash function.
+  uint32_t hash = strlen(str);
+  for (char *p = (char *) str; *p != 0; p++)
+  {
+    //  use a big prime as magic number.
+    hash = hash * 2000099957 + (uint8_t) *p;
+  }
+  return hash;
+}
 
 
 //////////////////////////////////////////////////

@@ -10,7 +10,7 @@
 
 UUID uuid;
 
-uint32_t start, stop, randomtime;
+uint32_t start, stop;
 
 
 void setup()
