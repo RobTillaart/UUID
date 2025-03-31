@@ -2,7 +2,7 @@
 //
 //    FILE: UUID.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.2.0
 //    DATE: 2022-06-14
 // PURPOSE: Arduino Library for generating UUID's
 //     URL: https://github.com/RobTillaart/UUID
@@ -15,7 +15,7 @@
 #include "Printable.h"
 
 
-#define UUID_LIB_VERSION              (F("0.1.7"))
+#define UUID_LIB_VERSION              (F("0.2.0"))
 
 //  TODO an enum?
 const uint8_t UUID_MODE_VARIANT4 = 0;
@@ -41,21 +41,10 @@ public:
   //  MODE
   void     setVariant4Mode();
   void     setRandomMode();
-  uint8_t  getMode();
+  int      getMode();
 
   //  Printable interface
   size_t   printTo(Print& p) const;
-
-
-  //  CASE
-  //  (experimental code, not tested yet)
-  //  lower case is default and according to spec.
-  //  upper case is an additional feature.
-  //  must it be done at generation or at toCharArray() ?
-  //                     fast       or    flex
-  //
-  //  void     setLowerCase();
-  //  void     setUpperCase();
 
 
 private:
@@ -66,9 +55,18 @@ private:
 
   //  UUID in string format
   char     _buffer[37];
-  uint8_t  _mode = UUID_MODE_VARIANT4;
+  int _mode = UUID_MODE_VARIANT4;
+};
 
-  // bool     _upperCase = false;
+
+//////////////////////////////////////////////////
+//
+//  DERIVED CLASS GUID
+//
+class GUID : public UUID
+{
+public:
+  GUID();
 };
 
 

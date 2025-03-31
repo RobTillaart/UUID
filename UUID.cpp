@@ -1,7 +1,7 @@
 //
 //    FILE: UUID.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.2.0
 //    DATE: 2022-06-14
 // PURPOSE: Arduino Library for generating UUID's
 //     URL: https://github.com/RobTillaart/UUID
@@ -15,7 +15,7 @@ UUID::UUID()
 {
   //  seed - differs per compile - investigate how to differ runtime.
   //  see UUID_random_seed.ino
-  //  s1 = hash(__FILE__,__TIME__) 
+  //  s1 = hash(__FILE__,__TIME__)
   //  s2 = hash(__DATE__,__TIME__)
   seed(1, 2);
   setVariant4Mode();
@@ -37,7 +37,7 @@ void UUID::seed(uint32_t s1, uint32_t s2)
 void UUID::generate()
 {
   uint32_t ar[4];
-  for (uint8_t i = 0; i < 4; i++)
+  for (int i = 0; i < 4; i++)
   {
     ar[i] = _random();
     //  store binary version globally ?
@@ -57,7 +57,7 @@ void UUID::generate()
   }
 
   //  process 16 bytes build up the char array.
-  for (uint8_t i = 0, j = 0; i < 16; i++)
+  for (int i = 0, j = 0; i < 16; i++)
   {
     //  multiples of 4 between 8 and 20 get a -.
     //  note we are processing 2 digits in one loop.
@@ -80,33 +80,12 @@ void UUID::generate()
     _buffer[j++] = (ch < 10) ? '0' + ch : ('a' - 10) + ch;
   }
 
-  //  if (_upperCase)
-  //  {
-  //    for (int i = 0; i < 37; i++)
-  //    {
-  //      _buffer[i] = toUpper(_buffer[i]);
-  //    }
-  //  }
   _buffer[36] = 0;
 }
 
 
 char * UUID::toCharArray()
 {
-  //  if (_upperCase)
-  //  {
-  //    for (int i = 0; i < 37; i++)
-  //    {
-  //      _buffer[i] = toLower(_buffer[i]);
-  //    }
-  //  }
-  //  else
-  //  {
-  //    for (int i = 0; i < 37; i++)
-  //    {
-  //      _buffer[i] = toLower(_buffer[i]);
-  //    }
-  //  }
   return _buffer;
 }
 
@@ -127,7 +106,7 @@ void UUID::setRandomMode()
 }
 
 
-uint8_t UUID::getMode()
+int UUID::getMode()
 {
   return _mode;
 }
@@ -145,25 +124,8 @@ size_t UUID::printTo(Print& p) const
 
 //////////////////////////////////////////////////
 //
-//  CASE
-//
-//  void UUID::setLowerCase()
-//  {
-//    _upperCase = false;
-//  }
-//
-//
-//  void UUID::setUpperCase()
-//  {
-//    _upperCase = true;
-//  }
-
-
-//////////////////////////////////////////////////
-//
 //  PRIVATE
 //
-
 
 
 //////////////////////////////////////////////////
@@ -179,6 +141,18 @@ uint32_t UUID::_random()
   _m_w = 18000L * (_m_w & 65535L) + (_m_w >> 16);
   return (_m_z << 16) + _m_w;  //   32-bit result
 }
+
+
+
+//////////////////////////////////////////////////
+//
+//  DERIVED CLASS GUID
+//
+GUID::GUID() : UUID()
+{
+}
+
+
 
 
 //  -- END OF FILE --

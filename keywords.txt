@@ -2,6 +2,7 @@
 
 # Data types (KEYWORD1)
 UUID	KEYWORD1
+GUID	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)

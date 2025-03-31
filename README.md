@@ -16,9 +16,9 @@ Arduino library for generating UUID strings.
 
 ## Description
 
-This library provides a UUID generator class.
-A UUID is an Universally Unique IDentifier of 128 bits.
-These are typically written in the following format, defined in RFC-4122.
+This library provides a **UUID** generator class.
+An **UUID** is an Universally Unique IDentifier of 128 bits.
+These are typically written in the following format, defined in **RFC-4122**.
 
 ```
     0ac82d02-002b-4ccb-b96c-1c7839cbc4c0
@@ -26,34 +26,46 @@ These are typically written in the following format, defined in RFC-4122.
 ```
 
 The length is 32 hexadecimal digits + four hyphens = 36 characters.
-Note that the hexadecimal digits are all lower case.
+Note that the hexadecimal digits are all lower case (by specification).
+The user may convert this to upper case if needed.
 
-The 0.1.1 version of the lib tries to follow the RFC-4122, 
+The 0.1.1 version of the lib tries to follow the **RFC-4122** 
 for version 4 (random generated) and variant 1.
 In the format above the version 4 is indicated by the first arrow and must be 4.
 The variant 1 is at the position of the second arrow. 
 This nibble must be 8, 9, A or B.
 All the remaining bits are random.
 
-The basis for the UUID class is a Marsaglia pseudo random number generator (PRNG).
+The basis for the **UUID** class is a Marsaglia pseudo random number generator (PRNG).
 Note: This PRNG must be seeded with two real random uint32_t to get real random UUID's.
 Regular reseeding with external entropy improves randomness.
-Default it will generate the same sequence as it uses the same seeds.
+Default the class will generate the same sequence of UUID's as it uses the same seeds.
 This is useful for testing.
 
-Often one sees also the term GUID = Globally Unique Identifier.
-
 Tested on Arduino UNO + ESP32.
+
+Feedback as always is welcome.
+
+
+### GUID
+
+Often one sees also the term **GUID** = Globally Unique Identifier.
+Since 0.2.0 this library has a **GUID** derived class which is a wrapper around UUID.
 
 
 ### Related
 
 - https://en.wikipedia.org/wiki/Universally_unique_identifier
 - https://www.ietf.org/rfc/rfc4122.txt
+- https://github.com/RobTillaart/UUID  (this library)
+- https://github.com/RobTillaart/randomHelpers
 
 UUID is also available as ESP32 component (Kudos to KOIO5)
 
 - https://github.com/K0I05/ESP32-S3_ESP-IDF_COMPONENTS/tree/main/components/utilities/esp_uuid
+
+
+
 
 ## Interface
 
@@ -136,23 +148,29 @@ Note: generating the 16 random bytes already takes ~40 us (UNO).
 
 ### UUID's per second
 
-indicative maximum performance (see example sketch)
+indicative maximum performance figures in UUID's per second, 
+measured by UUID_performance.ino.
+Note that 0.2.0 has become faster, especially for ESP32.
 
-|  Version  |  UNO 16 MHz  |  ESP32 240 MHz  |  notes      |
-|:---------:|:------------:|:---------------:|:-----------:|
-|   0.1.0   |    2000++    |                 |  both modi  |
-|   0.1.1   |    4000++    |                 |  both modi  |
-|   0.1.2   |    6400++    |                 |  both modi  |
-|   0.1.3   |    8200++    |                 |  both modi  |
-|           |              |                 |             |
-|   0.1.4   |    8268      |     31970       |  VARIANT4   |
-|   0.1.4   |    8418      |     34687       |  RANDOM     |
-|   0.1.5   |    8268      |     31969       |  VARIANT4   |
-|   0.1.5   |    8418      |     34689       |  RANDOM     |
-
+|  Version  |  mode       |  UNO 16 MHz  |  ESP32 240 MHz  |
+|:---------:|:-----------:|:------------:|:---------------:|
+|   0.1.0   |  both modi  |    2000++    |                 |
+|   0.1.1   |  both modi  |    4000++    |                 |
+|   0.1.2   |  both modi  |    6400++    |                 |
+|   0.1.3   |  both modi  |    8200++    |                 |
+|           |             |              |                 |
+|   0.1.4   |  VARIANT4   |    8268      |     31970       |
+|   0.1.4   |  RANDOM     |    8418      |     34687       |
+|   0.1.5   |  VARIANT4   |    8268      |     31969       |
+|   0.1.5   |  RANDOM     |    8418      |     34689       |
+|           |             |              |                 |
+|   0.2.0   |  VARIANT4   |    8540      |     46662       |
+|   0.2.0   |  RANDOM     |    8703      |     49931       |
 
 Note that these maxima are not realistic e.g. for a server.
 Other tasks need to be done too (listening, transfer etc.).
+
+Performance on other boards welcome.
 
 
 ## Future
@@ -165,21 +183,18 @@ Other tasks need to be done too (listening, transfer etc.).
 
 #### Should
 
+
+- use compile constants __FILE__, __DATE__ and __TIME__ as initial seed.
+  - option in constructor?
 - optimize
   - reduce footprint
-  - can the buffer be reduced?
   - buffer as static char in generate is ~2% faster on AVR
     (not shocking, impact ?)
   - smaller / faster random generator?
--  use compile constants __FILE__, __DATE__ and __TIME__ as initial seed.
 
 
 #### Could
 
-- GUID as derived class?
-  - (further identical?)
-- add **setUpperCase()** and **setLowerCase()**, **isUpperCase()**
-  - one bool flag
 - investigate entropy harvesting
   - micros() between calls.
   - freeRAM, timers, RAM, USB-ID, ...
@@ -191,8 +206,11 @@ Other tasks need to be done too (listening, transfer etc.).
   - RTC for entropy
   - EEPROM to store last seeds? (n)
 
+
 ### Won't (unless)
 
+- buffer can be reduced by packing 2 values into 1 byte,
+  however this need unpack() in toCharArray() == performance penalty.
 - support for { and }
 - add **setSeparator(char)** and **getSeparator()** ?  
   - minus is the RFC specification.
@@ -201,7 +219,8 @@ Other tasks need to be done too (listening, transfer etc.).
 - binary output in a byte array
   - **getBinary(uint8_t \* array)**
   - need to store them from generate.  
-
+- add **setUpperCase()** and **setLowerCase()**, **isUpperCase()**
+  - one bool flag  (not part of the spec, user can do this)
 
 ## Support
 

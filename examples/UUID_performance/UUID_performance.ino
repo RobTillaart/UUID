@@ -21,6 +21,7 @@ void setup()
   Serial.print("UUID_LIB_VERSION: ");
   Serial.println(UUID_LIB_VERSION);
   Serial.println();
+  delay(100);
 
   uint16_t count = 0;
   uuid.setVariant4Mode();
@@ -33,6 +34,7 @@ void setup()
   Serial.print("Generate 4: ");
   Serial.print(count);
   Serial.println(" uuid's per second.");
+  delay(100);
 
   count = 0;
   uuid.setRandomMode();

@@ -6,10 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.1.7] - 2025-03-29
+## [0.2.0] - 2025-03-29
 - update readme.md with ESP Component reference, thanks to KOIO5
+- optimize performance (especially ESP32)
+- add GUID derived class (identical == wrapper)
 - update examples - add URL.
 - minor edits
+
+----
 
 ## [0.1.6] - 2023-11-23
 - update readme.md
