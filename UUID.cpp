@@ -108,6 +108,11 @@ char * UUID::toCharArray()
 //
 //  MODE
 //
+int UUID::getMode()
+{
+  return _mode;
+}
+
 void UUID::setRandomMode()
 {
   _mode = UUID_MODE_RANDOM;
