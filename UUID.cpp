@@ -20,7 +20,7 @@ UUID::UUID()
   uint32_t s1 = s2 ^ _hash(__DATE__);
            s2 = s2 ^ _hash(__FILE__);
   seed(s1, s2);
-  setVariant4Mode();
+  setVersion4Mode();
   generate();
 }
 
@@ -54,21 +54,21 @@ void UUID::generate()
   for (int i = 0; i < 4; i++)
   {
     ar[i] = _random();
-    //  store binary version globally ?
-    //  _ar[i] = ar[i];
   }
-  //  Conforming to RFC 4122 Specification
+  //  Conforming to RFC 4122 Specification, version 4, variant 1
   //  - byte 7: four most significant bits ==> 0100  --> always 4
   //  - byte 9: two  most significant bits ==> 10    --> always {8, 9, A, B}.
   //
-  //  patch bits for version 1 and variant 4 here
-  if (_mode == UUID_MODE_VARIANT4)
+  //  patch bits for version 4 and variant 1 here
+  if (_mode == UUID_MODE_VERSION4)
   {
     ar[1] &= 0xFFF0FFFF;   //  remove 4 bits.
     ar[1] |= 0x00040000;   //  variant 4
     ar[2] &= 0xFFFFFFF3;   //  remove 2 bits
     ar[2] |= 0x00000008;   //  version 1
   }
+  //  store binary version globally ?
+  //  _ar[i] = ar[i];
 
   //  process 16 bytes build up the char array.
   for (int i = 0, j = 0; i < 16; i++)
@@ -108,21 +108,27 @@ char * UUID::toCharArray()
 //
 //  MODE
 //
-void UUID::setVariant4Mode()
-{
-  _mode = UUID_MODE_VARIANT4;
-}
-
-
 void UUID::setRandomMode()
 {
   _mode = UUID_MODE_RANDOM;
 }
 
-
-int UUID::getMode()
+void UUID::setVersion4Mode()
 {
-  return _mode;
+  _mode = UUID_MODE_VERSION4;
+}
+
+// void UUID::setVersion8Mode(uint8_t nodeId[6])
+// {
+//   //  TODO  store node ID in lib.
+//   _mode = UUID_MODE_VERSION8;
+// }
+
+
+//  OBSOLETE in 0.3.0
+void UUID::setVariant4Mode()
+{
+  _mode = UUID_MODE_VERSION4;
 }
 
 
@@ -178,6 +184,11 @@ GUID::GUID() : UUID()
 {
 }
 
+
+//////////////////////////////////////////////////
+//
+//  DERIVED CLASS ? - TODO
+//
 
 
 

@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - optimize performance (especially ESP32)
 - add compile time initialization of randomizer in constructor.
 - add GUID derived class (identical == wrapper)
+- made MODE constants numbering more logical, **breaking change in getMode()**
+- deprecate setVariant4Mode(),  use **setVersion4Mode()** instead.
 - fix unit test
 - add examples
 - add URL to examples

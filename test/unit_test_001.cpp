@@ -41,8 +41,9 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  assertEqual(0, UUID_MODE_VARIANT4);
-  assertEqual(1, UUID_MODE_RANDOM);
+  assertEqual(0, UUID_MODE_RANDOM);
+  assertEqual(4, UUID_MODE_VERSION4);
+  assertEqual(8, UUID_MODE_VERSION8);
 }
 
 
@@ -95,11 +96,11 @@ unittest(test_mode)
 {
   UUID uuid;
 
-  assertEqual(UUID_MODE_VARIANT4, uuid.getMode());
+  assertEqual(UUID_MODE_VERSION4, uuid.getMode());
   uuid.setRandomMode();
   assertEqual(UUID_MODE_RANDOM, uuid.getMode());
-  uuid.setVariant4Mode();
-  assertEqual(UUID_MODE_VARIANT4, uuid.getMode());
+  uuid.setVersion4Mode();
+  assertEqual(UUID_MODE_VERSION4, uuid.getMode());
 }
 
 

@@ -24,7 +24,8 @@ void setup()
   delay(100);
 
   uint16_t count = 0;
-  uuid.setVariant4Mode();
+  uuid.setVersion4Mode();
+
   uint32_t start = millis();
   while (millis() - start < 1000)
   {

@@ -16,7 +16,7 @@ Arduino library for generating UUID strings.
 
 ## Description
 
-This library provides a **UUID** generator class.
+This library provides an **UUID** generator class.
 An **UUID** is an Universally Unique IDentifier of 128 bits.
 These are typically written in the following format, defined in **RFC-4122**.
 
@@ -31,8 +31,8 @@ The user may convert this to upper case if needed.
 
 The 0.1.1 version of the lib tries to follow the **RFC-4122** 
 for version 4 (random generated) and variant 1.
-In the format above the version 4 is indicated by the first arrow and must be 4.
-The variant 1 is at the position of the second arrow. 
+In the format above the version 4 is indicated by the first arrow (position 14) and must be 4.
+The variant 1 is at the position of the second arrow (position 19).
 This nibble must be 8, 9, A or B.
 All the remaining bits are random.
 
@@ -47,10 +47,20 @@ Tested on Arduino UNO + ESP32.
 Feedback as always is welcome.
 
 
+### Breaking change in 0.2.0
+
+The return value of getMode is now more logical as variant4 == 4, instead of 0.
+
+The setVariant4Mode() is deprecated, use **setVersion4Mode()** instead.
+
+The 0.2.0 version and up will be based upon **RFC-9562** as RFC-4122 is obsolete.
+
+
 ### GUID
 
 Often one sees also the term **GUID** = Globally Unique Identifier.
-Since 0.2.0 this library has a **GUID** derived class which is a wrapper around UUID.
+Since 0.2.0 this library has a **GUID** derived class which is just a wrapper 
+around UUID for now.
 
 
 ### Related
@@ -65,6 +75,38 @@ Since 0.2.0 this library has a **GUID** derived class which is a wrapper around 
 UUID is also available as ESP32 component (Kudos to KOIO5)
 
 - https://github.com/K0I05/ESP32-S3_ESP-IDF_COMPONENTS/tree/main/components/utilities/esp_uuid
+
+
+### UUID versions (OSF DCE).
+
+Minimized summary of Wikipedia, details see RFC-9562
+
+- Version 1 is based upon the MAC address of the generating node (or random bits
+with the multicast bit set to 1) followed by a timestamp since midnight 15 October 1582.
+This date the Gregorian calendar started.
+- Version 2 is reserved for DCE security and look similar to 1 but have some drawbacks.
+- Version 3 hashes a namespace using MD5. (the RFC's recommend to use 5 instead.)
+- Version 4 is using random bits == this UUID class, implements variant 1 of version 4.
+This variant 1 sets the variant bits to 10 resulting in nibble (8,9,a,b)
+Variant 2 has one extra bit hard set and equals legacy GUID's, therefore it only 
+implements half of the variant 1 UUID's so obsolete.
+- Version 5 hashes a namespace using SHA1. Is very similar to version 3.
+- Version 6 is similar to version 1, except the timestamp parts are MSB to LSB
+which allows "generation time sorting" of the UUID's.
+- Version 7 uses a timestamp since 1 jan 1970 (UNIX Epoch) followed by random bits.
+It is typically used in databases. 
+- Version 8 is custom, with the variant bits set to 10, the bits follow vendor specific
+rules so they may encode anything or being random. 
+
+
+The UUID class only implements version 4, variant 1 with the badly chosen name **UUID_MODE_VARIANT4**. 
+The **UUID_MODE_RANDOM** of this UUID class is not one of the 8 official 
+versions. It is not even version 8. 
+
+Interesting could be a version 8 that would have a node unique part (like 1 and 6) 
+based upon the unique address of an **DS18B20** temperature sensor.
+The other ~80 bits are just a sequence. Problem is to store the last number used.
+Or they may be randomized, no persistent storage needed.
 
 
 ## Interface
@@ -98,15 +140,19 @@ representing the last generated UUID.
 Multiple subsequent calls to **toCharArray()** will return the **same UUID**
 until **generate()** is called again.
 
+The RFC-9562 and Wikipedia tells about up to OSF DCE standard, which defines
+eight versions to the standard. Historically there are even more.
+The version is encoded in the version nibble 14. 
+
 
 ### Mode
 
 Only two modi are supported, default is the **UUID_MODE_VARIANT4**.
 This is conform RFC-4122.
 
-- **void setVariant4Mode()** set mode to **UUID_MODE_VARIANT4**.
-- **void setRandomMode()** set mode to **UUID_MODE_RANDOM**.
-- **uint8_t getMode()** returns mode set.
+- **void setVariant4Mode()** set mode to **UUID_MODE_VARIANT4** (== 4).
+- **void setRandomMode()** set mode to **UUID_MODE_RANDOM** (== 0).
+- **uint8_t getMode()** returns mode set, note these numbers have changed in 0.2.0
 
 
 ### Printable 
@@ -175,7 +221,7 @@ Note that 0.2.0 has become faster, especially for ESP32.
 |   0.1.5   |  VARIANT4   |    8268      |     31969       |
 |   0.1.5   |  RANDOM     |    8418      |     34689       |
 |           |             |              |                 |
-|   0.2.0   |  VARIANT4   |    8540      |     46662       |
+|   0.2.0   |  VERSION4   |    8540      |     46662       |
 |   0.2.0   |  RANDOM     |    8703      |     49931       |
 
 Note that these maxima are not realistic e.g. for a server.
@@ -195,7 +241,11 @@ Performance on other boards welcome.
 
 #### Should
 
-- investigate rfc9562, for more variants.
+
+- investigate RFC-9562, for more variants.
+  - versions 7 and 8 could be interesting.
+  - replace VARIANT with VERSION to conform RFC-9562 naming 
+    - setVersion0Mode, setVersion4Mode, setVersion8Mode  (enum)
 - investigate entropy harvesting
   - micros() between calls.
   - freeRAM, timers, RAM, USB-ID, ...
@@ -223,7 +273,7 @@ Performance on other boards welcome.
   however this need unpack() in toCharArray() == performance penalty.
 - support for { and }
 - add **setSeparator(char)** and **getSeparator()** ?  
-  - minus is the RFC specification.
+  - minus is specified in the RFC's.
 - move code to .h so compiler can optimize more?
 - **next()** add 1 to UUID to generate a continuous sequence ?
 - binary output in a byte array
